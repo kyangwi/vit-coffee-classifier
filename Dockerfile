@@ -13,7 +13,9 @@ RUN pip install --no-cache-dir \
     timm==0.9.12 \
     pillow==10.1.0 \
     numpy==1.26.2 \
-    huggingface_hub==0.19.4
+    huggingface_hub==0.19.4 \
+    fastcore \
+    fastai
 
 # Set working directory inside the container
 WORKDIR /app
