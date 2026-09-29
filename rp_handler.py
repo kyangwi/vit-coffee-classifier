@@ -18,7 +18,7 @@ except ImportError:
 # Model Configuration
 IMG_SIZE = 224
 DEFAULT_CLASSES = ["KR1", "KR10", "KR3", "KR4", "KR5", "KR6", "KR7", "KR8", "KR9"]
-MODEL_FILENAME = "vit_base_patch16_224_coffee_preloaded.pth"
+MODEL_FILENAME = "/app/vit_base_patch16_224_coffee_preloaded.pth" if os.path.exists("/app/vit_base_patch16_224_coffee_preloaded.pth") else "vit_base_patch16_224_coffee_preloaded.pth"
 
 class PyTorchViTModel(nn.Module):
     def __init__(self, num_classes: int = 9):
