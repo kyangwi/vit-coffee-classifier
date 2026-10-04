@@ -28,7 +28,7 @@ Open a terminal in the `runpod_deployment/` directory and build the Docker image
 docker build -t username/vit-coffee-classifier:latest .
 ```
 
-*Note: The model weights will download at container startup from the Hugging Face hub by default (`Bwenge840/vit-base-patch16-224-coffee-preloaded`).*
+*Note: The model weights will download at container startup from the Hugging Face hub by default (`Bwenge840/vit-base-patch16-384-coffee-preloaded`).*
 
 ---
 

@@ -16,15 +16,15 @@ except ImportError:
     runpod = None
 
 # Model Configuration
-IMG_SIZE = 224
+IMG_SIZE = 384
 DEFAULT_CLASSES = ["KR1", "KR10", "KR3", "KR4", "KR5", "KR6", "KR7", "KR8", "KR9"]
-MODEL_FILENAME = "/app/vit_base_patch16_224_coffee_preloaded.pth" if os.path.exists("/app/vit_base_patch16_224_coffee_preloaded.pth") else "vit_base_patch16_224_coffee_preloaded.pth"
+MODEL_FILENAME = "/app/vit_base_patch16_384_coffee_preloaded.pth" if os.path.exists("/app/vit_base_patch16_384_coffee_preloaded.pth") else "vit_base_patch16_384_coffee_preloaded.pth"
 
 class PyTorchViTModel(nn.Module):
     def __init__(self, num_classes: int = 9):
         super().__init__()
         self.backbone = timm.create_model(
-            "vit_base_patch16_224",
+            "vit_base_patch16_384",
             pretrained=False,
             num_classes=0,
         )
@@ -87,8 +87,8 @@ def load_model() -> nn.Module:
     
     # If the model is not found locally, download from HF Hub
     if not os.path.exists(model_path):
-        repo_id = os.environ.get("HF_REPO_ID", "Bwenge840/vit-base-patch16-224-coffee-preloaded")
-        filename = os.environ.get("HF_FILENAME", "vit_base_patch16_224_coffee_preloaded.pth")
+        repo_id = os.environ.get("HF_REPO_ID", "Bwenge840/vit-base-patch16-384-coffee-preloaded")
+        filename = os.environ.get("HF_FILENAME", "vit_base_patch16_384_coffee_preloaded.pth")
         print(f"Model file '{model_path}' not found locally. Attempting HF download: {repo_id}/{filename}...")
         
         try:
@@ -123,11 +123,11 @@ def load_model() -> nn.Module:
 
 def preprocess_image(image_bytes: bytes) -> torch.Tensor:
     image = Image.open(io.BytesIO(image_bytes)).convert("RGB")
-    resampling = getattr(Image, "Resampling", Image).BILINEAR
+    resampling = getattr(Image, "Resampling", Image).BICUBIC
     image = image.resize((IMG_SIZE, IMG_SIZE), resampling)
 
     image_tensor = torch.from_numpy(np.array(image)).permute(2, 0, 1).float() / 255.0
-    transform = T.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])
+    transform = T.Normalize(mean=[0.5, 0.5, 0.5], std=[0.5, 0.5, 0.5])
     return transform(image_tensor).unsqueeze(0).to(device)
 
 def handler(job):

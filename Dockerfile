@@ -25,13 +25,13 @@ COPY rp_handler.py /app/rp_handler.py
 
 # Bake model into the image:
 # Copy local file if present, or download during docker build
-COPY vit_base_patch16_224_coffee_preloaded.pth* /app/
-RUN python -c "import os; from huggingface_hub import hf_hub_download; os.path.exists('/app/vit_base_patch16_224_coffee_preloaded.pth') or hf_hub_download(repo_id='Bwenge840/vit-base-patch16-224-coffee-preloaded', filename='vit_base_patch16_224_coffee_preloaded.pth', local_dir='/app')"
+COPY vit_base_patch16_384_coffee_preloaded.pth* /app/
+RUN python -c "import os; from huggingface_hub import hf_hub_download; os.path.exists('/app/vit_base_patch16_384_coffee_preloaded.pth') or hf_hub_download(repo_id='Bwenge840/vit-base-patch16-384-coffee-preloaded', filename='vit_base_patch16_384_coffee_preloaded.pth', local_dir='/app')"
 
 # Set environment variables for the baked model
-ENV MODEL_PATH="/app/vit_base_patch16_224_coffee_preloaded.pth"
-ENV HF_REPO_ID="Bwenge840/vit-base-patch16-224-coffee-preloaded"
-ENV HF_FILENAME="vit_base_patch16_224_coffee_preloaded.pth"
+ENV MODEL_PATH="/app/vit_base_patch16_384_coffee_preloaded.pth"
+ENV HF_REPO_ID="Bwenge840/vit-base-patch16-384-coffee-preloaded"
+ENV HF_FILENAME="vit_base_patch16_384_coffee_preloaded.pth"
 
 # Command to execute the RunPod serverless entry point
 CMD ["python", "-u", "/app/rp_handler.py"]
